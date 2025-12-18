@@ -18,33 +18,38 @@ const MusicController: React.FC = () => {
     if (audio.src !== assets.music && assets.music) {
       audio.src = assets.music;
       
+      // If enabled, try to play immediately after source change
       if (uiConfig.musicEnabled) {
-        audio.play().catch(() => {
-            console.log("Autoplay blocked, will play on first interaction.");
-        });
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                console.log("Autoplay blocked on source change, waiting for interaction.");
+            });
+        }
       }
     }
   }, [assets.music, uiConfig.musicEnabled]);
 
-  // Handle first interaction to trigger "autoplay"
+  // Handle first interaction to trigger "autoplay" since browsers block audio without a gesture
   useEffect(() => {
-    const handleFirstInteraction = () => {
+    const handleInteraction = () => {
       if (audioRef.current && uiConfig.musicEnabled && audioRef.current.paused) {
         audioRef.current.play().catch(() => {});
       }
-      window.removeEventListener('click', handleFirstInteraction);
-      window.removeEventListener('touchstart', handleFirstInteraction);
-      window.removeEventListener('keydown', handleFirstInteraction);
+      // Remove listeners once we've had one interaction
+      window.removeEventListener('click', handleInteraction);
+      window.removeEventListener('touchstart', handleInteraction);
+      window.removeEventListener('keydown', handleInteraction);
     };
 
-    window.addEventListener('click', handleFirstInteraction);
-    window.addEventListener('touchstart', handleFirstInteraction);
-    window.addEventListener('keydown', handleFirstInteraction);
+    window.addEventListener('click', handleInteraction);
+    window.addEventListener('touchstart', handleInteraction);
+    window.addEventListener('keydown', handleInteraction);
 
     return () => {
-      window.removeEventListener('click', handleFirstInteraction);
-      window.removeEventListener('touchstart', handleFirstInteraction);
-      window.removeEventListener('keydown', handleFirstInteraction);
+      window.removeEventListener('click', handleInteraction);
+      window.removeEventListener('touchstart', handleInteraction);
+      window.removeEventListener('keydown', handleInteraction);
     };
   }, [uiConfig.musicEnabled]);
 
@@ -54,7 +59,12 @@ const MusicController: React.FC = () => {
         audioRef.current.volume = uiConfig.musicVolume;
 
         if (uiConfig.musicEnabled) {
-            audioRef.current.play().catch(() => {});
+            const playPromise = audioRef.current.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // Autoplay blocked, handled by the interaction listener
+                });
+            }
         } else {
             audioRef.current.pause();
         }
