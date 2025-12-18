@@ -93,7 +93,6 @@ const GameLoop: React.FC = () => {
    * Logic: To prevent the pipe image from appearing stretched or squashed, we calculate 
    * the source rectangle based on the target PIPE_WIDTH (124px) and the target destination height.
    * This ensures the image is cropped vertically rather than distorted, regardless of its original height.
-   * Reference resolution: 440x956.
    */
   const drawPipeObstacle = (
     ctx: CanvasRenderingContext2D,
@@ -103,13 +102,15 @@ const GameLoop: React.FC = () => {
     w: number,
     h: number
   ) => {
-    // 🎨 BACKGROUND COLOR FOR THE PIPE
-    // We fill the destination rectangle with a theme color before drawing the image.
-    // This provides a consistent look if the asset is transparent or hasn't loaded.
-    ctx.fillStyle = '#ff6f8f';
-    ctx.fillRect(x, y, w, h);
+    // 🚫 BACKGROUND COLOR REMOVED as requested. 
+    // Pipes will now be transparent where the sprite allows it.
 
-    if (!isImageReady(img)) return;
+    if (!isImageReady(img)) {
+      // Simple fallback if image is missing - subtle outline or block
+      ctx.fillStyle = 'rgba(255, 111, 143, 0.5)';
+      ctx.fillRect(x, y, w, h);
+      return;
+    }
 
     // The horizontal scale is the ratio of the desired width (124px) to the image's actual width.
     const horizontalScale = w / img.width;
