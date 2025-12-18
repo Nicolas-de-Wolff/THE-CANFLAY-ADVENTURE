@@ -90,10 +90,10 @@ const GameLoop: React.FC = () => {
 
   /**
    * RENDERING HELPER: Fixed Aspect Ratio Pipe
-   * Why 440x956? This is the reference mobile resolution for the GP Explorer theme.
-   * To prevent the pipe image from appearing stretched or squashed, we calculate 
-   * the source rectangle based on the constant PIPE_WIDTH and the target height.
-   * This ensures the image is cropped vertically rather than distorted.
+   * Logic: To prevent the pipe image from appearing stretched or squashed, we calculate 
+   * the source rectangle based on the target PIPE_WIDTH (124px) and the target destination height.
+   * This ensures the image is cropped vertically rather than distorted, regardless of its original height.
+   * Reference resolution: 440x956.
    */
   const drawPipeObstacle = (
     ctx: CanvasRenderingContext2D,
@@ -103,21 +103,26 @@ const GameLoop: React.FC = () => {
     w: number,
     h: number
   ) => {
+    // 🎨 BACKGROUND COLOR FOR THE PIPE
+    // We fill the destination rectangle with a theme color before drawing the image.
+    // This provides a consistent look if the asset is transparent or hasn't loaded.
+    ctx.fillStyle = '#ff6f8f';
+    ctx.fillRect(x, y, w, h);
+
     if (!isImageReady(img)) return;
 
-    // The scale is determined by the fixed PIPE_WIDTH vs the original image width
+    // The horizontal scale is the ratio of the desired width (124px) to the image's actual width.
     const horizontalScale = w / img.width;
     
-    // To maintain aspect ratio, we calculate how much source height (sh) 
-    // is needed to cover the destination height (h).
+    // To preserve the image's aspect ratio, we determine how much of the source image's height
+    // is required to cover the destination height 'h' at this specific horizontal scale.
     const sourceHeightNeeded = h / horizontalScale;
 
-    // We take the top part of the source image (containing the pipe 'cap' or 'head')
-    // and draw it into the full target rectangle. If the pipe is taller than the image,
-    // it will still stretch slightly, but most assets are designed tall enough for the 956px reference.
+    // Draw the image using source-cropping. We start from the top of the source (0,0) 
+    // which usually contains the pipe 'opening' or 'cap'.
     ctx.drawImage(
       img,
-      0, 0, // Source X, Y (Start from the cap)
+      0, 0, // Source X, Y (Start at the top of the asset)
       img.width, sourceHeightNeeded, // Source Width, Height
       x, y, // Destination X, Y
       w, h // Destination Width, Height
@@ -138,7 +143,7 @@ const GameLoop: React.FC = () => {
     // Shortcut for physics config
     const cfg = configRef.current; 
 
-    // Player horizontal position (Moved further left to 1/4 of screen width)
+    // Player horizontal position
     const birdX = width / 4;
 
     // Clear canvas
@@ -218,23 +223,16 @@ const GameLoop: React.FC = () => {
     
     // Draw Pipes
     pipes.current.forEach(pipe => {
-      if (isImageReady(pipeImg)) {
-        // --- TOP PIPE (Flipped) ---
-        ctx.save();
-        // Translate and flip so that source Y=0 (the cap) is at the gap opening
-        ctx.translate(0, pipe.topHeight);
-        ctx.scale(1, -1);
-        drawPipeObstacle(ctx, pipeImg, pipe.x, 0, PIPE_WIDTH, pipe.topHeight);
-        ctx.restore();
-        
-        // --- BOTTOM PIPE (Normal) ---
-        drawPipeObstacle(ctx, pipeImg, pipe.x, pipe.topHeight + cfg.pipeGap, PIPE_WIDTH, height - (pipe.topHeight + cfg.pipeGap));
-      } else {
-        // Fallback Rects
-        ctx.fillStyle = '#ff6f8f';
-        ctx.fillRect(pipe.x, 0, PIPE_WIDTH, pipe.topHeight);
-        ctx.fillRect(pipe.x, pipe.topHeight + cfg.pipeGap, PIPE_WIDTH, height - (pipe.topHeight + cfg.pipeGap));
-      }
+      // --- TOP PIPE (Flipped) ---
+      ctx.save();
+      // Translate and flip so that the source image's head (cap) is at the gap opening
+      ctx.translate(0, pipe.topHeight);
+      ctx.scale(1, -1);
+      drawPipeObstacle(ctx, pipeImg!, pipe.x, 0, PIPE_WIDTH, pipe.topHeight);
+      ctx.restore();
+      
+      // --- BOTTOM PIPE (Normal) ---
+      drawPipeObstacle(ctx, pipeImg!, pipe.x, pipe.topHeight + cfg.pipeGap, PIPE_WIDTH, height - (pipe.topHeight + cfg.pipeGap));
     });
 
     // Draw Player (Can)
