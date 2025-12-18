@@ -275,7 +275,7 @@ const GameLoop: React.FC = () => {
       {/* Score HUD - Centered at Top */}
       {(gameState === GameState.PLAYING || gameState === GameState.GAME_OVER || gameState === GameState.WON) && (
         <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-20 pointer-events-none text-center">
-             <span className="text-pink-primary drop-shadow-md stroke-white" style={scoreStyle}>
+             <span className="text-bg-secondary drop-shadow-md" style={scoreStyle}>
                 {score} / {WIN_SCORE}
              </span>
         </div>
@@ -298,7 +298,7 @@ const GameLoop: React.FC = () => {
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/60 pointer-events-auto">
           <h2 className="text-bg-secondary mb-4" style={titleStyle}>Perdu !</h2>
           <div className="bg-bg-secondary p-6 rounded-xl text-center shadow-2xl border-4 border-pink-primary">
-             <p className="text-bg-primary mb-4" style={uiStyle}>Score: {score} / {WIN_SCORE}</p>
+             <p className="text-pink-primary mb-4" style={uiStyle}>Score: {score} / {WIN_SCORE}</p>
              <button 
                onClick={() => { setGameState(GameState.START); resetGame(); }} 
                className="btn-primary px-6 py-3 rounded-lg"
