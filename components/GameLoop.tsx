@@ -88,6 +88,42 @@ const GameLoop: React.FC = () => {
     setScore(0);
   };
 
+  /**
+   * RENDERING HELPER: Fixed Aspect Ratio Pipe
+   * Why 440x956? This is the reference mobile resolution for the GP Explorer theme.
+   * To prevent the pipe image from appearing stretched or squashed, we calculate 
+   * the source rectangle based on the constant PIPE_WIDTH and the target height.
+   * This ensures the image is cropped vertically rather than distorted.
+   */
+  const drawPipeObstacle = (
+    ctx: CanvasRenderingContext2D,
+    img: HTMLImageElement,
+    x: number,
+    y: number,
+    w: number,
+    h: number
+  ) => {
+    if (!isImageReady(img)) return;
+
+    // The scale is determined by the fixed PIPE_WIDTH vs the original image width
+    const horizontalScale = w / img.width;
+    
+    // To maintain aspect ratio, we calculate how much source height (sh) 
+    // is needed to cover the destination height (h).
+    const sourceHeightNeeded = h / horizontalScale;
+
+    // We take the top part of the source image (containing the pipe 'cap' or 'head')
+    // and draw it into the full target rectangle. If the pipe is taller than the image,
+    // it will still stretch slightly, but most assets are designed tall enough for the 956px reference.
+    ctx.drawImage(
+      img,
+      0, 0, // Source X, Y (Start from the cap)
+      img.width, sourceHeightNeeded, // Source Width, Height
+      x, y, // Destination X, Y
+      w, h // Destination Width, Height
+    );
+  };
+
   // Main Loop
   const loop = useCallback(() => {
     const canvas = canvasRef.current;
@@ -185,13 +221,14 @@ const GameLoop: React.FC = () => {
       if (isImageReady(pipeImg)) {
         // --- TOP PIPE (Flipped) ---
         ctx.save();
+        // Translate and flip so that source Y=0 (the cap) is at the gap opening
         ctx.translate(0, pipe.topHeight);
         ctx.scale(1, -1);
-        ctx.drawImage(pipeImg, pipe.x, 0, PIPE_WIDTH, pipe.topHeight);
+        drawPipeObstacle(ctx, pipeImg, pipe.x, 0, PIPE_WIDTH, pipe.topHeight);
         ctx.restore();
         
         // --- BOTTOM PIPE (Normal) ---
-        ctx.drawImage(pipeImg, pipe.x, pipe.topHeight + cfg.pipeGap, PIPE_WIDTH, height - (pipe.topHeight + cfg.pipeGap));
+        drawPipeObstacle(ctx, pipeImg, pipe.x, pipe.topHeight + cfg.pipeGap, PIPE_WIDTH, height - (pipe.topHeight + cfg.pipeGap));
       } else {
         // Fallback Rects
         ctx.fillStyle = '#ff6f8f';
