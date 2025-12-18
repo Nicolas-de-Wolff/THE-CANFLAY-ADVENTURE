@@ -1,0 +1,5 @@
+{
+  "name": "-CanFly-",
+  "description": "A Flappy Bird-style game featuring a flying can. Reach 6 points to pack the can!",
+  "requestFramePermissions": []
+}

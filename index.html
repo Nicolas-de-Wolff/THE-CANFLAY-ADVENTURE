@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>CanFly</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="./styles/style.css" />
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                'pink-primary': 'var(--color-pink-primary)',
+                'pink-v1': 'var(--color-pink-variant-1)',
+                'bg-primary': 'var(--color-bg-primary)',
+                'bg-secondary': 'var(--color-bg-secondary)',
+              },
+              fontFamily: {
+                'twk': ['TWKBurns', 'sans-serif'],
+              }
+            }
+          }
+        }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

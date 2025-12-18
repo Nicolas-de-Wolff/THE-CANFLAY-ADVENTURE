@@ -1,0 +1,78 @@
+:root {
+  /* 3️⃣ COLORS — PINK THEME ONLY */
+  --color-pink-primary: #FF476C;
+  --color-pink-variant-1: #ff6f8f;
+  --color-pink-variant-2: #ff8fa8;
+
+  --color-bg-primary: #140004;
+  --color-bg-secondary: #FFFAEB;
+
+  --color-text-primary: #140004;
+  --color-text-secondary: #FFFAEB;
+
+  /* 4️⃣ FONTS */
+  --font-main: 'TWKBurns', sans-serif;
+}
+
+/* Font Face Loading from remote source */
+@font-face {
+  font-family: 'TWKBurns';
+  src: url('https://raw.githubusercontent.com/Nicolas-de-Wolff/canfly-assets/main/Fonts/twkburns-extrabold-webfont.woff2') format('woff2'),
+       url('https://raw.githubusercontent.com/Nicolas-de-Wolff/canfly-assets/main/Fonts/twkburns-extrabold-webfont.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Base Styles applied globally */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+  background-color: var(--color-bg-primary);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Utility Classes mapping to Variables for React usage */
+.font-twk {
+  font-family: var(--font-main);
+  font-weight: 700;
+}
+
+.text-pink-primary { color: var(--color-pink-primary); }
+.text-pink-v1 { color: var(--color-pink-variant-1); }
+.text-bg-primary { color: var(--color-bg-primary); }
+.text-bg-secondary { color: var(--color-text-secondary); }
+
+.bg-pink-primary { background-color: var(--color-pink-primary); }
+.bg-bg-primary { background-color: var(--color-bg-primary); }
+.bg-bg-secondary { background-color: var(--color-bg-secondary); }
+
+/* Game Container Constraints */
+.game-container {
+  width: 100%;
+  height: 100%;
+  max-width: 440px;
+  max-height: 956px;
+  min-width: 320px; /* Fallback */
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(255, 71, 108, 0.3);
+}
+
+/* Button Styles */
+.btn-primary {
+  background-color: var(--color-pink-primary);
+  color: var(--color-text-secondary);
+  border: none;
+  font-family: var(--font-main);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.btn-primary:active {
+  transform: scale(0.95);
+}
