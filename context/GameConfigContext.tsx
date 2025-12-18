@@ -36,7 +36,7 @@ const DEFAULT_CONFIG: GameConfig = {
   scoreFontSize: 60,
   uiFontSize: 24,
   // Audio Defaults
-  musicVolume: 0.5,
+  musicVolume: 0.8, // Updated volume to be louder as requested
   musicEnabled: true,
 };
 

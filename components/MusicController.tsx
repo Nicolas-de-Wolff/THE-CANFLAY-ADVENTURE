@@ -16,20 +16,37 @@ const MusicController: React.FC = () => {
 
     // Si la source a changé
     if (audio.src !== assets.music && assets.music) {
-      // Check if assets.music is a relative path or a data URL
       audio.src = assets.music;
       
-      // If enabled, try to play immediately after source change
       if (uiConfig.musicEnabled) {
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(e => {
-                console.log("Autoplay blocked on source change, waiting for interaction.");
-            });
-        }
+        audio.play().catch(() => {
+            console.log("Autoplay blocked, will play on first interaction.");
+        });
       }
     }
   }, [assets.music, uiConfig.musicEnabled]);
+
+  // Handle first interaction to trigger "autoplay"
+  useEffect(() => {
+    const handleFirstInteraction = () => {
+      if (audioRef.current && uiConfig.musicEnabled && audioRef.current.paused) {
+        audioRef.current.play().catch(() => {});
+      }
+      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+      window.removeEventListener('keydown', handleFirstInteraction);
+    };
+
+    window.addEventListener('click', handleFirstInteraction);
+    window.addEventListener('touchstart', handleFirstInteraction);
+    window.addEventListener('keydown', handleFirstInteraction);
+
+    return () => {
+      window.removeEventListener('click', handleFirstInteraction);
+      window.removeEventListener('touchstart', handleFirstInteraction);
+      window.removeEventListener('keydown', handleFirstInteraction);
+    };
+  }, [uiConfig.musicEnabled]);
 
   // Gestion du Volume et Play/Pause
   useEffect(() => {
@@ -37,13 +54,7 @@ const MusicController: React.FC = () => {
         audioRef.current.volume = uiConfig.musicVolume;
 
         if (uiConfig.musicEnabled) {
-            const playPromise = audioRef.current.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    // Autoplay blocked, we can't force it.
-                    // But we keep state as enabled.
-                });
-            }
+            audioRef.current.play().catch(() => {});
         } else {
             audioRef.current.pause();
         }

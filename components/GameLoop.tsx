@@ -284,9 +284,9 @@ const GameLoop: React.FC = () => {
       {/* Overlays */}
       {gameState === GameState.START && (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/40 pointer-events-none">
-          <h1 className="text-pink-primary mb-8 drop-shadow-lg" style={titleStyle}>Vole</h1>
+          <h1 className="text-bg-secondary mb-8 drop-shadow-lg uppercase" style={titleStyle}>VOLE</h1>
           <button 
-             className="pointer-events-auto btn-primary px-8 py-4 rounded-xl shadow-xl hover:bg-pink-600 transition-colors"
+             className="pointer-events-auto btn-primary px-8 py-4 rounded-xl shadow-xl transition-colors"
              style={uiStyle}
           >
             JOUER
@@ -296,12 +296,12 @@ const GameLoop: React.FC = () => {
 
       {gameState === GameState.GAME_OVER && (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/60 pointer-events-auto">
-          <h2 className="text-bg-secondary mb-4" style={titleStyle}>Perdu !</h2>
-          <div className="bg-bg-secondary p-6 rounded-xl text-center shadow-2xl border-4 border-pink-primary">
-             <p className="text-pink-primary mb-4" style={uiStyle}>Score: {score} / {WIN_SCORE}</p>
+          <div className="bg-bg-secondary p-8 rounded-2xl text-center shadow-2xl flex flex-col items-center">
+             <h2 className="text-bg-primary mb-4 uppercase" style={titleStyle}>Perdu !</h2>
+             <p className="text-bg-primary mb-6" style={uiStyle}>Score: {score} / {WIN_SCORE}</p>
              <button 
                onClick={() => { setGameState(GameState.START); resetGame(); }} 
-               className="btn-primary px-6 py-3 rounded-lg"
+               className="btn-primary px-8 py-4 rounded-xl shadow-lg transition-colors"
                style={uiStyle}
              >
                 Rejouer

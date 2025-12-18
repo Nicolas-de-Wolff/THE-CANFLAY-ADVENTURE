@@ -1,5 +1,5 @@
 // ⚙️ PHYSICS (USE EXACT VALUES)
-export const GRAVITY = 0.12;    // very low, bird should float
+export const GRAVITY = 1.2;    // Updated from 0.12 to 1.2 as requested
 export const LIFT = -4.0;       // soft jump impulse
 export const INITIAL_VELOCITY = 0;
 
