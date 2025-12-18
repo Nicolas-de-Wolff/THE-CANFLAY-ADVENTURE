@@ -32,25 +32,27 @@ const MusicController: React.FC = () => {
 
   // Handle first interaction to trigger "autoplay" since browsers block audio without a gesture
   useEffect(() => {
-    const handleInteraction = () => {
+    const startAudio = () => {
       if (audioRef.current && uiConfig.musicEnabled && audioRef.current.paused) {
         audioRef.current.play().catch(() => {});
       }
       // Remove listeners once we've had one interaction
-      window.removeEventListener('click', handleInteraction);
-      window.removeEventListener('touchstart', handleInteraction);
-      window.removeEventListener('keydown', handleInteraction);
+      cleanup();
     };
 
-    window.addEventListener('click', handleInteraction);
-    window.addEventListener('touchstart', handleInteraction);
-    window.addEventListener('keydown', handleInteraction);
-
-    return () => {
-      window.removeEventListener('click', handleInteraction);
-      window.removeEventListener('touchstart', handleInteraction);
-      window.removeEventListener('keydown', handleInteraction);
+    const cleanup = () => {
+      window.removeEventListener('click', startAudio);
+      window.removeEventListener('touchstart', startAudio);
+      window.removeEventListener('mousedown', startAudio);
+      window.removeEventListener('keydown', startAudio);
     };
+
+    window.addEventListener('click', startAudio);
+    window.addEventListener('touchstart', startAudio);
+    window.addEventListener('mousedown', startAudio);
+    window.addEventListener('keydown', startAudio);
+
+    return cleanup;
   }, [uiConfig.musicEnabled]);
 
   // Gestion du Volume et Play/Pause

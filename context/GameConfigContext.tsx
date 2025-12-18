@@ -36,8 +36,8 @@ const DEFAULT_CONFIG: GameConfig = {
   scoreFontSize: 60,
   uiFontSize: 24,
   // Audio Defaults
-  musicVolume: 1.0, // Updated to 100% (1.0) as requested
-  musicEnabled: true,
+  musicVolume: 1.0, // Default to 100% (1.0)
+  musicEnabled: true, // Default to ON
 };
 
 const DEFAULT_ASSETS: GameAssets = {

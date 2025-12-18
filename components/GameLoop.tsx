@@ -286,7 +286,7 @@ const GameLoop: React.FC = () => {
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/40 pointer-events-none">
           <h1 className="text-bg-secondary mb-8 drop-shadow-lg uppercase" style={titleStyle}>VOLE</h1>
           <button 
-             className="pointer-events-auto btn-primary px-8 py-4 rounded-xl shadow-xl transition-colors"
+             className="pointer-events-auto btn-primary px-8 py-4 rounded-xl shadow-xl active:scale-95"
              style={uiStyle}
           >
             JOUER
@@ -301,7 +301,7 @@ const GameLoop: React.FC = () => {
              <p className="text-bg-primary mb-6" style={uiStyle}>Score: {score} / {WIN_SCORE}</p>
              <button 
                onClick={() => { setGameState(GameState.START); resetGame(); }} 
-               className="btn-primary px-8 py-4 rounded-xl shadow-lg transition-colors"
+               className="btn-primary px-8 py-4 rounded-xl shadow-lg active:scale-95"
                style={uiStyle}
              >
                 Rejouer
@@ -328,7 +328,7 @@ const GameLoop: React.FC = () => {
           
           <button 
             onClick={() => { setGameState(GameState.START); resetGame(); }} 
-            className="btn-primary px-8 py-4 rounded-xl shadow-lg"
+            className="btn-primary px-8 py-4 rounded-xl shadow-lg active:scale-95"
             style={uiStyle}
           >
             JOUER ENCORE
