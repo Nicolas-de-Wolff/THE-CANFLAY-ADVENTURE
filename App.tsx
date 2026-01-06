@@ -11,14 +11,11 @@ const GameContainer: React.FC = () => {
   return (
     <div className="game-container relative w-full h-full max-w-[440px] max-h-[956px] bg-bg-primary">
         
-        {/* BACKGROUND IMAGE - Dynamic from Context */}
-        <img
-            src={assets.background}
-            alt="Game Background"
-            className="absolute top-0 left-0 w-full h-full object-cover z-0 pointer-events-none"
-            onError={(e) => {
-                e.currentTarget.style.display = 'none';
-            }}
+        {/* Background Image (Static) */}
+        <img 
+          src={assets.background} 
+          alt="Background" 
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         />
 
         {/* Global UI Elements */}
