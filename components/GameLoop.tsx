@@ -260,16 +260,16 @@ const GameLoop: React.FC = () => {
       {gameState === GameState.START && (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/40 pointer-events-none">
           <h1 className="text-bg-secondary mb-8 drop-shadow-lg uppercase" style={titleStyle}>VOLE</h1>
-          <button onClick={jump} className="pointer-events-auto btn-primary px-8 py-4 rounded-xl shadow-xl active:scale-95" style={uiStyle}>JOUER</button>
+          <button onClick={jump} className="pointer-events-auto btn-primary px-8 py-4 rounded-none shadow-xl active:scale-95" style={uiStyle}>JOUER</button>
         </div>
       )}
 
       {gameState === GameState.GAME_OVER && (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-black/60 pointer-events-auto">
-          <div className="bg-bg-secondary p-8 rounded-2xl text-center shadow-2xl flex flex-col items-center">
+          <div className="bg-bg-secondary p-8 rounded-none text-center shadow-2xl flex flex-col items-center">
              <h2 className="text-bg-primary mb-4 uppercase" style={titleStyle}>Perdu !</h2>
              <p className="text-bg-primary mb-6" style={uiStyle}>Score: {score} / {WIN_SCORE}</p>
-             <button onClick={jump} className="btn-primary px-8 py-4 rounded-xl shadow-lg active:scale-95" style={uiStyle}>Rejouer</button>
+             <button onClick={jump} className="btn-primary px-8 py-4 rounded-none shadow-lg active:scale-95" style={uiStyle}>Rejouer</button>
           </div>
         </div>
       )}
@@ -279,13 +279,13 @@ const GameLoop: React.FC = () => {
           <h2 className="text-bg-primary mb-2 uppercase" style={titleStyle}>Gagné !</h2>
           <img src={assets.box} alt="Box" className="w-24 h-24 object-contain mb-4 animate-bounce shrink-0" onError={(e) => (e.currentTarget.src = 'https://picsum.photos/150/150')} />
           <p className="text-bg-primary mb-6 max-w-[80%] leading-relaxed" style={uiStyle}>La cannette est bien emballée</p>
-          <div className="w-full max-w-sm bg-white/50 border-2 border-pink-primary rounded-3xl p-6 mb-8 shadow-sm">
+          <div className="w-full max-w-sm bg-white/50 border-2 border-pink-primary rounded-none p-6 mb-8 shadow-sm">
             <h3 className="text-pink-primary mb-2 uppercase tracking-tighter" style={{...titleStyle, fontSize: '32px'}}>CONCOURS</h3>
             <p className="text-bg-primary mb-4 leading-tight text-sm px-2" style={uiStyle}>Participe au tirage au sort pour gagner la gamme entière !</p>
             {!submitted ? (
               <form onSubmit={handleContestSubmit} className="flex flex-col gap-3">
-                <input type="email" placeholder="Ton email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-bg-primary focus:outline-none focus:ring-2 focus:ring-pink-primary transition-all text-sm font-twk" />
-                <button type="submit" className="btn-primary w-full py-3 rounded-xl shadow-md active:scale-95 transition-all text-sm">ENVOYER</button>
+                <input type="email" placeholder="Ton email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-4 py-3 rounded-none bg-white border border-gray-200 text-bg-primary focus:outline-none focus:ring-2 focus:ring-pink-primary transition-all text-sm font-twk" />
+                <button type="submit" className="btn-primary w-full py-3 rounded-none shadow-md active:scale-95 transition-all text-sm">ENVOYER</button>
               </form>
             ) : (
               <div className="py-4 animate-bounce">
@@ -294,7 +294,7 @@ const GameLoop: React.FC = () => {
               </div>
             )}
           </div>
-          <button onClick={jump} className="btn-primary px-8 py-3 rounded-xl shadow-lg active:scale-95 transition-all opacity-80 shrink-0 mb-8" style={{...uiStyle, fontSize: '18px'}}>JOUER ENCORE</button>
+          <button onClick={jump} className="btn-primary px-8 py-3 rounded-none shadow-lg active:scale-95 transition-all opacity-80 shrink-0 mb-8" style={{...uiStyle, fontSize: '18px'}}>JOUER ENCORE</button>
         </div>
       )}
     </>
