@@ -9,7 +9,7 @@ export const WIN_SCORE = 6;
 export const PIPE_SPEED = 3.5; 
 export const PIPE_SPAWN_RATE = 100; // Frames between pipes - Updated to 100 as requested
 export const PIPE_GAP = 220; // Gap between top and bottom pipe
-export const PIPE_WIDTH = 124; // Updated to 124 as requested
+export const PIPE_WIDTH = 85; // This is now the HITBOX width (reduced to 85px)
 
 // Assets Paths
 // 🛠 MODDER NOTE: All assets below can be replaced in the Debug Menu at runtime.
@@ -27,7 +27,7 @@ export const ASSETS = {
     // The winning screen icon (Package) - Editable in Mod Menu
     box: 'https://raw.githubusercontent.com/Nicolas-de-Wolff/canfly-assets/main/images/package_2.png',
     
-    // The static background - Editable in Mod Menu
+    // The static background - Editable in Menu
     background: 'https://raw.githubusercontent.com/Nicolas-de-Wolff/canfly-assets/main/images/fond.png',
     
     // The obstacle (Pipe) - Set to the high-quality GitHub asset by default
