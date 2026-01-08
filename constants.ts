@@ -6,7 +6,7 @@ export const INITIAL_VELOCITY = 0;
 
 // Game Rules
 export const WIN_SCORE = 6;
-export const PIPE_SPEED = 3.5; 
+export const PIPE_SPEED = 5.5; 
 export const PIPE_SPAWN_RATE = 100; // Frames between pipes - Updated to 100 as requested
 export const PIPE_GAP = 220; // Gap between top and bottom pipe
 export const PIPE_WIDTH = 85; // This is now the HITBOX width (reduced to 85px)
